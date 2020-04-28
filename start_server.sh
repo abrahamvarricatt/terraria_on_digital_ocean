@@ -30,6 +30,8 @@ docker-machine create \
 	--digitalocean-access-token $DOTOKEN \
 	--digitalocean-size $DROPLET_SIZE \
 	--digitalocean-image $DROPLET_IMAGE \
+    --digitalocean-monitoring=true \
+    --digitalocean-region $DROPLET_REGION \
 	$DROPLET_NAME
 
 echo "creating a /world directory inside the droplet"

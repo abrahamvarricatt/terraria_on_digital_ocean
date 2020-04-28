@@ -4,7 +4,7 @@
 # server on it. It will display the IP of the server before exiting. It will
 # also save the IP to a file named `server_ip.txt`. 
 
-set -e  # terminate script if any command fails
+# set -e  # terminate script if any command fails
 
 source ./environment_variables.sh
 
@@ -29,7 +29,6 @@ cp $PROJECT_DIRECTORY/temp/gameworld.wld $PROJECT_DIRECTORY/world/.
 
 echo "deleting temporary files/folders"
 rm -rf temp
-rm temp.tar.gz
 rm server_ip.txt
 rm world.tar.gz
 
