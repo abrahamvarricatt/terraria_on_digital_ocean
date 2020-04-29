@@ -11,12 +11,11 @@ source ./environment_variables.sh
 echo "creating a temporary directory"
 mkdir -p $PROJECT_DIRECTORY/temp
 
-echo "copying game-world file to temp directory"
-cp $PROJECT_DIRECTORY/world/gameworld.wld \
-   $PROJECT_DIRECTORY/temp/gameworld.wld
-
-echo "copying all configs to temp directory"
-cp -r $PROJECT_DIRECTORY/config/* $PROJECT_DIRECTORY/temp/.
+echo "copying game-world files to temp directory"
+cp $PROJECT_DIRECTORY/world/swan_world.twld \
+   $PROJECT_DIRECTORY/temp/swan_world.twld
+cp $PROJECT_DIRECTORY/world/swan_world.wld \
+   $PROJECT_DIRECTORY/temp/swan_world.wld
 
 echo "compressing temp directory into an archive"
 tar -czvf temp.tar.gz -C $PROJECT_DIRECTORY/temp .
@@ -47,11 +46,13 @@ echo "uncompressing archive to /world directory"
 docker-machine ssh $DROPLET_NAME tar -xzvf /temp.tar.gz -C /world
 
 echo "starting terraria server"
-docker-machine ssh $DROPLET_NAME docker run -dit \
+docker-machine ssh $DROPLET_NAME docker run -di \
+    --env DISCORD_BOT_TOKEN=$DISCORD_BOT_TOKEN \
+    --env DISCORD_CHANNEL_ID=$DISCORD_CHANNEL_ID \
     -p 7777:7777 \
+    --name terraria \
     --mount src=/world,target=/world,type=bind \
-    --name="terraria" ryshe/terraria:latest \
-    -world /world/gameworld.wld
+    abrahamvarricatt/modded-terraria-server:latest
 
 echo "saving server IP to file"
 docker-machine ip $DROPLET_NAME > server_ip.txt

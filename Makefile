@@ -26,8 +26,11 @@ start-game:
 	--name="terraria" \
 	ryshe/terraria:latest
 
-docker:
-	docker build --tag terraria-server .
+docker-build:
+	docker build --tag abrahamvarricatt/modded-terraria-server .
+
+docker-push:
+	docker push abrahamvarricatt/modded-terraria-server
 	
 docker-shell:
 	docker run --rm \
@@ -36,7 +39,7 @@ docker-shell:
 			   --mount src="$(shell pwd)/world",target=/world,type=bind \
 			   -it \
 			   -p 7777:7777 \
-			   terraria-server /bin/bash
+			   abrahamvarricatt/modded-terraria-server /bin/bash
 
 docker-game:
 	docker run --rm \
@@ -45,5 +48,5 @@ docker-game:
 			   --mount src="$(shell pwd)/world",target=/world,type=bind \
 			   -it \
 			   -p 7777:7777 \
-			   terraria-server
+			   abrahamvarricatt/modded-terraria-server
 
