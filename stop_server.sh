@@ -28,7 +28,7 @@ echo "moving gameworld to /world folder"
 cp $PROJECT_DIRECTORY/temp/gameworld.wld $PROJECT_DIRECTORY/world/.
 
 echo "deleting temporary files/folders"
-rm -rf temp
+# rm -rf temp
 rm server_ip.txt
 rm world.tar.gz
 
