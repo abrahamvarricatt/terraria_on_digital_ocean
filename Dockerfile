@@ -1,32 +1,21 @@
+# Docker container which uses Tshock to manage the Terraria server
+#
+# NOTE: At time of typing, Tshock using terracord is the only way to pass 
+#       messages between Terraria and Discord.
+#
+###############################################################################
 FROM ubuntu:bionic-20200403
 LABEL description="A docker image to run a Terraria game server"
 # We want to use bash shell
 SHELL ["/bin/bash", "-c"]  
 WORKDIR /usr/src
 
-ARG SERVER_VERSION=1353
-ARG TMODLOADER_VERSION=v0.11.6.2
 
-ENV SERVER_VERSION=${SERVER_VERSION}
-ENV SERVER_ROOT=/opt/terraria
-ENV LOG_ROOT=/var/log/terraria
-ENV SERVER_ZIP=/opt/terraria-server.zip
-ENV SERVER_BIN=$SERVER_ROOT/TerrariaServer
-ENV CONFIG_ROOT=/etc/terraria
-ENV SERVER_CONFIG=$CONFIG_ROOT/serverconfig.txt
-ENV TMODLOADER_TARBALL=/opt/tmodloader.tar.gz
-ENV TMODLOADER_ROOT=/root/.local/share/Terraria/ModLoader
-ENV TMODLOADER_ROOT_WORLDS=$TMODLOADER_ROOT/Worlds
-ENV TMODLOADER_ROOT_MODS=$TMODLOADER_ROOT/Mods
-ENV TMODLOADER_ROOT_MOD_CONFIGS=$TMODLOADER_ROOT/Mod\ Configs
+ENV SERVER_ROOT=/opt/terraria-tshock
+ENV SERVER_ZIP=/opt/terraria-tshock-server.zip
 
 # create folders
-RUN mkdir -p $SERVER_ROOT \
-             $LOG_ROOT \
-             $CONFIG_ROOT/worlds \
-             $TMODLOADER_ROOT_WORLDS \
-             $TMODLOADER_ROOT_MODS \
-             $TMODLOADER_ROOT_MOD_CONFIGS/TerrariaChatRelay
+RUN mkdir -p $SERVER_ROOT
 
 # update repository information
 RUN apt-get update -y 
@@ -37,42 +26,10 @@ RUN apt-get install -y \
         zip 
 
 # download and extract official server zip
-RUN wget -q http://terraria.org/server/terraria-server-$SERVER_VERSION.zip \
+RUN wget -q https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre6/TShock_4.4.0_Pre6_Terraria1.4.0.3.zip \
          -O $SERVER_ZIP && \
-    unzip $SERVER_ZIP -d /opt/temp && \
-    cp -r /opt/temp/$SERVER_VERSION/Linux/. $SERVER_ROOT
-
-# download and extract tModLoader to SERVER_ROOT
-RUN wget -q https://github.com/tModLoader/tModLoader/releases/download/$TMODLOADER_VERSION/tModLoader.Linux.$TMODLOADER_VERSION.tar.gz \
-         -O $TMODLOADER_TARBALL && \
-    tar -xzvf $TMODLOADER_TARBALL -C $SERVER_ROOT
-
-# Mark some files as executable
-RUN chmod +x $SERVER_BIN \
-             $SERVER_BIN.bin.x86 \   
-             $SERVER_BIN.bin.x86_64   
-
-# Copy over server config
-COPY ./config/serverconfig.txt $SERVER_CONFIG
-
-# Create a symbolic link to /world
-RUN ln -s $TMODLOADER_ROOT_WORLDS /world
-
-
-# downloading mods
-RUN wget -q https://github.com/xPanini/TCR-TerrariaChatRelay/releases/download/v0.9.1/TerrariaChatRelay.tmod \
-         -O $TMODLOADER_ROOT_MODS/TerrariaChatRelay.tmod
-RUN wget -q https://github.com/JavidPack/RecipeBrowser/releases/download/v0.8.6/RecipeBrowser.tmod \
-         -O $TMODLOADER_ROOT_MODS/RecipeBrowser.tmod
-RUN wget -q https://github.com/JavidPack/BossChecklist/releases/download/v1.1.1/BossChecklist.tmod \
-         -O $TMODLOADER_ROOT_MODS/BossChecklist.tmod
-
-
-# Copy mod config files
-COPY ./config/enabled.json $TMODLOADER_ROOT_MODS/enabled.json
-COPY ./config/TerrariaChatRelay/* $TMODLOADER_ROOT_MOD_CONFIGS/TerrariaChatRelay/
-
-
+    unzip $SERVER_ZIP -d $SERVER_ROOT && \
+    chmod +x $SERVER_ROOT/TerrariaServer.exe
 
 # Expose container port
 EXPOSE 7777
