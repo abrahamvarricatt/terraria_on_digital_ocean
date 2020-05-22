@@ -52,7 +52,7 @@
   "SaveWorldOnCrash": true,
   "EnableGeoIP": false,
   "EnableTokenEndpointAuthentication": false,
-  "RestApiEnabled": false,
+  "RestApiEnabled": true,
   "RestApiPort": 7878,
   "DisableTombstones": true,
   "DisplayIPToAdmins": false,
@@ -108,7 +108,12 @@
     255,
     212
   ],
-  "ApplicationRestTokens": {},
+  "ApplicationRestTokens": {
+    "ABC123XYZ456": {
+      "Username": "root",
+      "UserGroupName": "superadmin"
+    }
+  },
   "ReservedSlots": 20,
   "LogRest": false,
   "RespawnSeconds": 5,

@@ -22,6 +22,7 @@ connect-client:
 start-game:
 	docker-machine ssh terraria-server mkdir -p /world && \
 	docker run -it -p 7777:7777 \
+	-p 7878:7878 \
 	--mount src="/world",target=/world,type=bind \
 	--name="terraria" \
 	ryshe/terraria:latest
@@ -39,6 +40,7 @@ docker-shell:
 			   --mount src="$(shell pwd)/world",target=/world,type=bind \
 			   -it \
 			   -p 7777:7777 \
+			   -p 7878:7878 \
 			   abrahamvarricatt/modded-terraria-server /bin/bash
 
 docker-game:
@@ -48,5 +50,6 @@ docker-game:
 			   --mount src="$(shell pwd)/world",target=/world,type=bind \
 			   -it \
 			   -p 7777:7777 \
+			   -p 7878:7878 \
 			   abrahamvarricatt/modded-terraria-server
 

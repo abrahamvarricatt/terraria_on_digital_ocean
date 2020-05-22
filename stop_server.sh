@@ -10,7 +10,10 @@
 source ./environment_variables.sh
 
 echo "stop terraria docker instance"
-docker-machine ssh $DROPLET_NAME "echo -e 'exit\n' | docker attach terraria"
+docker-machine ssh $DROPLET_NAME "curl 'http://localhost:7878/v2/server/off?confirm=true&nosave=false&token=ABC123XYZ456'"
+
+echo "waiting for server to stop"
+docker-machine ssh $DROPLET_NAME "while curl http://localhost:7878/status; do :; done"
 
 echo "compress remote game files into archive"
 docker-machine ssh $DROPLET_NAME tar -czvf /world.tar.gz \

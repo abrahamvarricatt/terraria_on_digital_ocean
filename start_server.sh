@@ -23,13 +23,13 @@ rm -rf $PROJECT_DIRECTORY/temp
 
 echo "creating a new droplet on DigitalOcean"
 docker-machine create \
-	--driver digitalocean \
-	--digitalocean-access-token $TERRARIA_DOTOKEN \
-	--digitalocean-size $DROPLET_SIZE \
-	--digitalocean-image $DROPLET_IMAGE \
+    --driver digitalocean \
+    --digitalocean-access-token $TERRARIA_DOTOKEN \
+    --digitalocean-size $DROPLET_SIZE \
+    --digitalocean-image $DROPLET_IMAGE \
     --digitalocean-monitoring=true \
     --digitalocean-region $DROPLET_REGION \
-	$DROPLET_NAME
+    $DROPLET_NAME
 
 echo "creating a /world directory inside the droplet"
 docker-machine ssh $DROPLET_NAME mkdir -p /world
@@ -48,6 +48,7 @@ docker-machine ssh $DROPLET_NAME docker run -di \
     --env DISCORD_BOT_TOKEN=$TERRARIA_DISCORD_BOT_TOKEN \
     --env DISCORD_CHANNEL_ID=$TERRARIA_DISCORD_CHANNEL_ID \
     -p 7777:7777 \
+    -p 7878:7878 \
     --name terraria \
     --mount src=/world,target=/world,type=bind \
     abrahamvarricatt/modded-terraria-server:latest

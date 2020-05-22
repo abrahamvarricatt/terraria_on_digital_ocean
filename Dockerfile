@@ -17,7 +17,7 @@ ENV TCR_ZIP=/opt/TerrariaChatRelay.zip
 ENV WORLD_FILENAME=swan_world.wld
 ENV CONFIGPATH=/opt/tshock-config
 ENV WORLD_PATH=/world/$WORLD_FILENAME
-ENV LOGPATH=/opt/terraria-tshock-logs
+ENV LOGPATH=/world/tshock-logs
 
 
 # create folders
@@ -46,6 +46,9 @@ RUN wget -q https://github.com/xPanini/TCR-TerrariaChatRelay-TShock/releases/dow
 
 # Expose container port
 EXPOSE 7777
+
+# Expose REST endpoints
+EXPOSE 7878
 
 # Copy config files to container
 COPY ./config $CONFIGPATH
