@@ -12,8 +12,6 @@ echo "creating a temporary directory"
 mkdir -p $PROJECT_DIRECTORY/temp
 
 echo "copying game-world files to temp directory"
-cp $PROJECT_DIRECTORY/world/swan_world.twld \
-   $PROJECT_DIRECTORY/temp/swan_world.twld
 cp $PROJECT_DIRECTORY/world/swan_world.wld \
    $PROJECT_DIRECTORY/temp/swan_world.wld
 

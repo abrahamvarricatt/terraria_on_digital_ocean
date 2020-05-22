@@ -26,7 +26,6 @@ echo "extracting archive"
 tar -xzvf world.tar.gz -C $PROJECT_DIRECTORY/temp
 
 echo "moving game-world files to /world folder"
-cp $PROJECT_DIRECTORY/temp/swan_world.twld $PROJECT_DIRECTORY/world/.
 cp $PROJECT_DIRECTORY/temp/swan_world.wld $PROJECT_DIRECTORY/world/.
 
 echo "deleting temporary files/folders"
