@@ -24,7 +24,7 @@ rm -rf $PROJECT_DIRECTORY/temp
 echo "creating a new droplet on DigitalOcean"
 docker-machine create \
 	--driver digitalocean \
-	--digitalocean-access-token $DOTOKEN \
+	--digitalocean-access-token $TERRARIA_DOTOKEN \
 	--digitalocean-size $DROPLET_SIZE \
 	--digitalocean-image $DROPLET_IMAGE \
     --digitalocean-monitoring=true \
@@ -45,8 +45,8 @@ docker-machine ssh $DROPLET_NAME tar -xzvf /temp.tar.gz -C /world
 
 echo "starting terraria server"
 docker-machine ssh $DROPLET_NAME docker run -di \
-    --env DISCORD_BOT_TOKEN=$DISCORD_BOT_TOKEN \
-    --env DISCORD_CHANNEL_ID=$DISCORD_CHANNEL_ID \
+    --env DISCORD_BOT_TOKEN=$TERRARIA_DISCORD_BOT_TOKEN \
+    --env DISCORD_CHANNEL_ID=$TERRARIA_DISCORD_CHANNEL_ID \
     -p 7777:7777 \
     --name terraria \
     --mount src=/world,target=/world,type=bind \
