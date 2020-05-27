@@ -1,0 +1,50 @@
+---
+
+# - name: Download dbx-cli
+#   get_url:
+#     url: "{{ dbx_cli_release }}"
+#     dest: /usr/local/bin/dbxcli
+#     mode: +x
+
+- name: Install dependencies
+  apt:
+    state: present
+    update_cache: yes
+    name: [
+      'python3-pip',
+      'git'
+    ]
+
+- name: Install dropbox-sdk in Python
+  pip:
+    name: dropbox==10.2.0
+
+- name: Install custom dropbox script to download world
+  template:
+    src: download_world_from_dropbox.py.j2
+    dest: /usr/local/bin/download_world_from_dropbox.py
+    mode: +x
+
+- name: Install custom dropbox script to upload world
+  template:
+    src: upload_world_to_dropbox.py.j2
+    dest: /usr/local/bin/upload_world_to_dropbox.py
+    mode: +x
+
+- name: Creating needed world folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0775
+    group: "{{ game_server_user }}"
+    owner: "{{ game_server_user }}"
+  with_items:
+    - "{{ world_only_path }}"
+
+- name: Download world from Dropbox
+  become: yes
+  become_user: "{{ game_server_user }}"
+  shell: download_world_from_dropbox.py
+  args:
+    chdir: "/home/{{ game_server_user }}"  
+

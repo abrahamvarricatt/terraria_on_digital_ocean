@@ -1,0 +1,30 @@
+---
+
+# user account for game server
+game_server_user: sammy
+game_server_user_password: rand321
+
+# game folders 
+server_root_path: /opt/terraria-tshock
+config_path: /opt/tshock-config
+log_path: /world/tshock-logs
+world_path: /world/swan_world.wld
+world_only_path: /world
+
+# external URLs 
+tshock_release: https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre8/TShock_4.4.0_Pre8_Terraria1.4.0.4.zip
+tcr_release: https://github.com/xPanini/TCR-TerrariaChatRelay-TShock/releases/download/0.9.1.1/TerrariaChatRelay-TShock-0.9.1.1.zip
+
+# files 
+tshock_zip: /opt/terraria-tshock-server.zip
+tcr_zip: /opt/TerrariaChatRelay.zip
+
+# TCR variables 
+tcr_discord_bot_token: "{{ lookup('env','TERRARIA_DISCORD_BOT_TOKEN') }}"
+tcr_discord_channel_id: "{{ lookup('env','TERRARIA_DISCORD_CHANNEL_ID') }}"
+
+# Dropbox stuff
+dbx_cli_release: https://github.com/dropbox/dbxcli/releases/download/v3.0.0/dbxcli-linux-amd64
+dropbox_access_token: "{{ lookup('env','DROPBOX_ACCESS_TOKEN') }}"
+
+

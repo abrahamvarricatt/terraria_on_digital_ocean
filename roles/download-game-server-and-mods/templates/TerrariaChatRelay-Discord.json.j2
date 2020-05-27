@@ -1,0 +1,27 @@
+{
+    "Comment": "Get a BOT_TOKEN from https://discordapp.com/developers/applications/",
+    "EnableDiscord": true,
+    "CommandPrefix": "!",
+    "FirstTimeMessageShown": false,
+    "AlwaysShowFirstTimeMessage": false,
+    "EndPoints": [
+        {
+            "BotToken": "{{ tcr_discord_bot_token }}",
+            "Channel_IDs": [
+                {{ tcr_discord_channel_id }}
+            ]
+        }
+    ],
+    "FormatHelp1": "You can insert any of these formatters to change how your message looks! (CASE SENSITIVE)",
+    "FormatHelp2": "%playername% = Player Name",
+    "FormatHelp3": "%worldname% = World Name",
+    "FormatHelp4": "%message% = Initial message content",
+    "FormatHelp5": "%bossname% = Name of boss being summoned (only for VanillaBossSpawned)",
+    "PlayerChatFormat": ":speech_left: **%playername%:** %message%",
+    "PlayerLoggedInFormat": ":small_blue_diamond: **%playername%** joined the server.",
+    "PlayerLoggedOutFormat": ":small_orange_diamond: **%playername%** left the server.",
+    "WorldEventFormat": "**%message%**",
+    "ServerStartingFormat": ":small_blue_diamond: **%message%**",
+    "ServerStoppingFormat": ":small_orange_diamond: **%message%**",
+    "VanillaBossSpawned": ":anger: **%bossname% has awoken!**"
+}

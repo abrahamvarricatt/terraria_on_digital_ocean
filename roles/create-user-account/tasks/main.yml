@@ -1,0 +1,16 @@
+---
+
+- name: Create user-group
+  group:
+    name: "{{ game_server_user }}"
+    state: present
+
+- name: Create user to run game server
+  user:
+    name: "{{ game_server_user }}"
+    group: "{{ game_server_user }}"
+    password: "{{ game_server_user_password | password_hash('sha512') }}"
+    shell: /bin/bash
+    groups:
+      - sudo
+    state: present

@@ -1,0 +1,78 @@
+---
+
+- name: Creating needed folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0775
+    group: "{{ game_server_user }}"
+    owner: "{{ game_server_user }}"
+  with_items:
+    - "{{ server_root_path }}"
+    - "{{ config_path }}"
+    - "{{ log_path }}"
+
+- name: Mark /opt as part of user's group
+  file: 
+    dest: /opt
+    group: "{{ game_server_user }}"
+    mode: o=rwx,g=rwx,o=rx
+
+- name: Download Tshock server
+  become: yes
+  become_user: "{{ game_server_user }}"
+  get_url:
+    url: "{{ tshock_release }}"
+    dest: "{{ tshock_zip }}"
+    mode: u=rw,g=rw,o=rw
+
+- name: Unzip Tshock
+  become: yes
+  become_user: "{{ game_server_user }}"
+  unarchive:
+    src: "{{ tshock_zip }}"
+    dest: "{{ server_root_path }}"
+    remote_src: yes
+
+- name: Marking TerrariaServer.exe as executable
+  file: 
+    dest: "{{ server_root_path }}/TerrariaServer.exe"
+    mode: a+x
+
+- name: Download TerrariaChatRelay server
+  become: yes
+  become_user: "{{ game_server_user }}"
+  get_url:
+    url: "{{ tcr_release }}"
+    dest: "{{ tcr_zip }}"
+    mode: u=rw,g=rw,o=rw
+
+- name: Unzip TerrariaChatRelay
+  become: yes
+  become_user: "{{ game_server_user }}"
+  unarchive:
+    src: "{{ tcr_zip }}"
+    dest: "{{ server_root_path }}/ServerPlugins"
+    remote_src: yes
+
+- name: Copy config files to remote
+  become: yes
+  become_user: "{{ game_server_user }}"
+  copy:
+    src: ./config/.
+    dest: "{{ config_path }}/."
+
+- name: Copy over TCR settings
+  become: yes
+  become_user: "{{ game_server_user }}"
+  template: 
+    src: TerrariaChatRelay-Discord.json.j2
+    dest: "{{ config_path }}/TerrariaChatRelay/TerrariaChatRelay-Discord.json"
+
+- name: install Terraria server systemd unit file
+  template: 
+    src: terraria.service.j2 
+    dest: /etc/systemd/system/terraria.service
+  notify:
+    - Restart Terraia server
+

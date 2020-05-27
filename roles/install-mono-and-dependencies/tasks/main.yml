@@ -1,0 +1,55 @@
+---
+
+# ref: https://linuxize.com/post/how-to-install-mono-on-ubuntu-18-04/
+
+- name: Necessary packages for mono
+  apt:
+    state: present
+    update_cache: yes
+    name: [
+      'dirmngr', 
+      'gnupg', 
+      'apt-transport-https', 
+      'ca-certificates'
+    ]
+
+- name: Add Xamarin Public Jenkins key from keyserver
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+
+- name: Add Mono repository to system source's list
+  apt_repository:
+    repo: deb https://download.mono-project.com/repo/ubuntu vs-bionic main
+    state: present
+    filename: mono-official-vs
+
+# NOTE: installing mono-complete takes waay too long to complete. So we are 
+# using this https://stackoverflow.com/q/41194021/198660  to check how far
+# its come (well ... just a heart-beat that it is not stuck)
+
+- name: Install Mono
+  apt:
+    name: mono-devel
+    update_cache: yes
+  async: 10000
+  poll: 0
+  register: install_mono_sleeper
+
+- name: Check status of mono installation
+  async_status:
+    jid: "{{ install_mono_sleeper.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+
+- name: Install miscellaneous dependencies to setup game-server
+  apt:
+    state: present
+    update_cache: no
+    name: [
+      'wget', 
+      'zip'
+    ]
+    
+

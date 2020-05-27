@@ -1,0 +1,17 @@
+[Unit]
+Description=Terraria server
+
+[Service]
+WorkingDirectory={{ server_root_path }}
+ExecStart=/usr/bin/mono --server --gc=sgen -O=all TerrariaServer.exe \
+           -configPath "{{ config_path }}" \
+           -logpath "{{ log_path }}" \
+           -world "{{ world_path }}"
+Restart=always
+RestartSec=10
+SyslogIdentifier=terraria
+User={{ game_server_user }}
+
+
+[Install]
+WantedBy=multi-user.target
