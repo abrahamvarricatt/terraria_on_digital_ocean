@@ -1,0 +1,44 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+
+  tasks:
+
+    - name: create a new droplet
+      digital_ocean_droplet:
+        state: present
+        name: terraria-server-swan-01
+        size: s-2vcpu-4gb
+        region: ams3
+        image: ubuntu-18-04-x64
+        wait_timeout: 500
+        monitoring: yes
+        unique_name: yes
+        ssh_keys: 27319103
+      register: do
+
+    - name: printing variable
+      debug:
+        var: do.data.ip_address
+
+    - name: Add new host to our inventory.
+      add_host:
+        name: "{{ do.data.ip_address }}"
+        groups: digital_ocean_host
+      when: do.data.droplet is defined
+      changed_when: False
+
+
+
+- hosts: digital_ocean_host
+  remote_user: root
+  gather_facts: False
+
+  tasks:
+    - name: Wait for port 22 to become available.
+      local_action: "wait_for port=22 host={{ inventory_hostname }}"
+
+    - name: ping
+      ping:
+
