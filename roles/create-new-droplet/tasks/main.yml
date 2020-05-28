@@ -3,9 +3,9 @@
 - name: create a new droplet
   digital_ocean_droplet:
     state: present
-    name: terraria-server-swan-01
-    size: s-2vcpu-4gb
-    region: ams3
+    name: "{{ droplet_name }}"
+    size: "{{ droplet_size }}"
+    region: "{{ droplet_region }}"
     image: ubuntu-18-04-x64
     wait_timeout: 500
     monitoring: yes
@@ -23,3 +23,8 @@
     groups: digital_ocean_host
   when: do.data.droplet is defined
   changed_when: False
+
+- name: Update local hosts file
+  template: 
+    src: hosts.ini.j2
+    dest: ./hosts.ini

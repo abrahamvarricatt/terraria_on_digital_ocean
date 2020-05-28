@@ -36,15 +36,15 @@
     path: "{{ item }}"
     state: directory
     mode: 0775
-    group: "{{ game_server_user }}"
-    owner: "{{ game_server_user }}"
+    # group: "{{ game_server_user }}"
+    # owner: "{{ game_server_user }}"
   with_items:
     - "{{ world_only_path }}"
 
 - name: Download world from Dropbox
-  become: yes
-  become_user: "{{ game_server_user }}"
+  # become: yes
+  # become_user: "{{ game_server_user }}"
   shell: download_world_from_dropbox.py
-  args:
-    chdir: "/home/{{ game_server_user }}"  
+  # args:
+  #   chdir: "/home/{{ game_server_user }}"  
 

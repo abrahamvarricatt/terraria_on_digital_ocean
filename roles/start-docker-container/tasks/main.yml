@@ -1,0 +1,13 @@
+---
+
+- name: Start our Terraria server
+  docker_container:
+    name: terraria
+    image: abrahamvarricatt/modded-terraria-server
+    published_ports:
+      - 0.0.0.0:7777:7777
+      - 0.0.0.0:7878:7878
+    mounts:
+      - source: /world
+        target: /world
+        type: bind

@@ -2,3 +2,4 @@ needed_environment_variables.txt
 temp.txt
 world/
 id_rsa
+hosts.ini

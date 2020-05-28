@@ -1,0 +1,13 @@
+---
+
+- name: remove/delete droplet
+  digital_ocean_droplet:
+    state: absent
+    name: "{{ droplet_name }}"
+    size: "{{ droplet_size }}"
+    region: "{{ droplet_region }}"
+    wait_timeout: 500
+    unique_name: yes
+
+
+

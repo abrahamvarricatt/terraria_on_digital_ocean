@@ -8,5 +8,11 @@ access_token = "{{ dropbox_access_token }}"
 dbx = dropbox.Dropbox(access_token)
 print("[SUCCESS] dropbox account linked")
 
-dbx.files_upload(open("/home/sammy/swan_world.wld", "rb").read(), "/swan_world.wld")
+with open("/world/swan_world.wld", "rb") as f:
+    dbx.files_upload(
+        f.read(), 
+        "/swan_world.wld", 
+        mode=dropbox.files.WriteMode("overwrite")
+    )
+
 print("[UPLOADED]")

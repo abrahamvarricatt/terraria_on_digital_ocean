@@ -1,0 +1,41 @@
+---
+
+- name: Creating needed folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0775
+  with_items:
+    - "{{ world_only_path }}"
+    - "{{ docker_path }}"
+    - "{{ docker_path }}{{ config_path }}"
+
+- name: Copy config files to remote
+  copy:
+    src: ./config/.
+    dest: "{{ docker_path }}{{ config_path }}/."
+
+- name: Configure Dockerfile on remote
+  template: 
+    src: Dockerfile.j2
+    dest: "{{ docker_path }}/Dockerfile"
+
+- name: Copy over TCR settings
+  template: 
+    src: TerrariaChatRelay-Discord.json.j2
+    dest: "{{ docker_path }}{{ config_path }}/TerrariaChatRelay/TerrariaChatRelay-Discord.json"
+
+- name: Copy entrypoint.sh to remote
+  copy:
+    src: entrypoint.sh
+    dest: "{{ docker_path }}/entrypoint.sh"
+
+- name: build docker image
+  docker_image: 
+    name: abrahamvarricatt/modded-terraria-server
+    build: 
+      path: "{{ docker_path }}"
+      pull: yes
+    source: build
+    state: present
+    force_source: yes

@@ -36,10 +36,21 @@
     - group_vars/all.yml
 
   roles:
-    - create-user-account
+    #
+    # The following set of roles work, but actually connecting them with 
+    # Discord takes too long to get the server deployed. Most of the time is 
+    # spent installing mono.
+    # - create-user-account
+    # - setup-dropbox
+    # - install-mono-and-dependencies
+    # - download-game-server-and-mods
+    #
+    - install-docker
+    - copy-and-build-docker
     - setup-dropbox
-    - install-mono-and-dependencies
-    - download-game-server-and-mods
+    - start-docker-container    
+
+
 
 
 

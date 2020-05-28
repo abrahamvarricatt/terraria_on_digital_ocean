@@ -27,4 +27,10 @@ tcr_discord_channel_id: "{{ lookup('env','TERRARIA_DISCORD_CHANNEL_ID') }}"
 dbx_cli_release: https://github.com/dropbox/dbxcli/releases/download/v3.0.0/dbxcli-linux-amd64
 dropbox_access_token: "{{ lookup('env','DROPBOX_ACCESS_TOKEN') }}"
 
+# Docker 
+docker_path: /opt/docker_build
 
+# Droplet details
+droplet_name: terraria-server-swan-01
+droplet_size: s-2vcpu-4gb
+droplet_region: ams3

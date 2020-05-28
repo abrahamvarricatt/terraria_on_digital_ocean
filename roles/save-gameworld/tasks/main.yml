@@ -1,0 +1,20 @@
+---
+
+- name: ping test
+  ping:
+
+- name: Shutdown Terraria server (and save world)
+  uri:
+    url: http://localhost:7878/v2/server/off?confirm=true&nosave=false&token=ABC123XYZ456
+  ignore_errors: yes
+
+- name: Wait for Terraria server status to be down
+  uri:
+    url: http://localhost:7878/status
+  register: game_status
+  ignore_errors: yes
+  retries: 10
+  until: game_status.status == -1
+
+- name: Upload world to Dropbox
+  shell: upload_world_to_dropbox.py
