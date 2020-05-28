@@ -1,9 +1,12 @@
 ---
 
+- name: update apt cache
+  apt:
+    update_cache: yes  
+
 - name: Install required system packages
   apt:
     state: present
-    update_cache: yes
     name: [
       'apt-transport-https', 
       'ca-certificates', 
