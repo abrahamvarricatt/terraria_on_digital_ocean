@@ -41,7 +41,7 @@
     jid: "{{ install_mono_sleeper.ansible_job_id }}"
   register: job_result
   until: job_result.finished
-  retries: 100
+  retries: 1000
 
 - name: Install miscellaneous dependencies to setup game-server
   apt:
