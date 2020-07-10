@@ -12,7 +12,7 @@ world_path: /world/swan_world.wld
 world_only_path: /world
 
 # external URLs 
-tshock_release: https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre11/TShock4.4.0_Pre11_Terraria1.4.0.5.zip
+tshock_release: https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre12/TShock4.4.0_Pre12_Terraria1.4.0.5.zip
 tcr_release: https://github.com/xPanini/TCR-TerrariaChatRelay-TShock/releases/download/0.9.1.1/TerrariaChatRelay-TShock-0.9.1.1.zip
 
 # files 
